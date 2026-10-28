@@ -29,6 +29,11 @@ PAGES = {
 @st.cache_resource
 def _startup() -> int:
     db.init_db()
+    try:
+        from scripts.download_models import main as download_models
+        download_models()
+    except Exception as exc:
+        print(f"Face models not downloaded: {exc}")
     return retention.purge_expired()
 
 
